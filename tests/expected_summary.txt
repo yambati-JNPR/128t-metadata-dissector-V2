@@ -1,0 +1,9 @@
+1	True	0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0	dns-svc		False	www.example.com		
+2	False	0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0	dns-svc		False	www.example.com		
+3	True	0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0	dns-svc		False	www.example.com		
+4	True		v6-svc		True			
+5	True							
+6	True						_ws.malformed	
+7	True							
+8	True			1				
+9	True							

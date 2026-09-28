@@ -2,13 +2,15 @@ Available filter fields:
 __128t
 128t_over_udp
 128t_over_tcp
+__128t_fallback
 128t.metadata
 128t.dir
 128t.proto
 128t.src_tenant
-128t.dst_tenant
 128t.src_ipv4
+128t.src_ipv6
 128t.dst_ipv4
+128t.dst_ipv6
 128t.src_port
 128t.dst_port
 128t.src_peer
@@ -16,12 +18,44 @@ __128t
 128t.src_peer_sec_name
 128t.dst_peer
 128t.service
+128t.session_uuid
+128t.app_name
+128t.security_id
+128t.interface_id
+128t.encrypted
+128t.tcp_syn
+128t.disable_fwd_metadata
+128t.icmp_error_ipv4
+128t.icmp_error_ipv6
+128t.drop_reason
+128t.src_nat_ipv4
+128t.remaining_session_time
+128t.health_check
+128t.security_key
+128t.pm
+128t.pm.tx_color
+128t.pm.tx_time
+128t.pm.rx_color
+128t.pm.rx_time
+128t.pm.drop
+128t.pm.prev_rx_count
+128t.mcast
+128t.mcast.family
+128t.mcast.flags
+128t.mcast.src_ipv4
+128t.mcast.group_ipv4
+128t.mcast.src_ipv6
+128t.mcast.group_ipv6
+128t.mcast.egress_count
+128t.mcast.egress_router
 128t.cookie
 128t.meta_version
 128t.meta_header_length
 128t.meta_header
 128t.payload_length
 128t.payload_header
+128t.meta_encrypted
+128t.false_positive
 128t.frag_header
 128t.frag_extended_id
 128t.frag_original_id
@@ -33,37 +67,80 @@ __128t
 128t.type
 128t.len
 128t.bytes
+128t.text
+128t.orig_payload
 128t.service_sessions_number
 128t.modify_req_header
 128t.modify_req_header_f
 128t.modify_req_header_d
 128t.modify_req_header_res
 128t.modify_req_header_seq
+128t.has_metadata
+128t.session_frame
+128t.inner
+128t.malformed
+128t.meta_encrypted.expert
+128t.unknown_type
+128t.control
 
 Full field/type list:
 P	128T SVR Metadata	__128t
 P	128T SVR Metadata (UDP)	128t_over_udp
 P	128T SVR Metadata (TCP)	128t_over_tcp
+P	128T SVR Metadata (fallback)	__128t_fallback
 F	Metadata	128t.metadata	FT_BYTES	__128t		0x0	
 F	Session Key	128t.dir	FT_UINT16	__128t	BASE_DEC	0x0	
 F	Protocol	128t.proto	FT_UINT8	__128t	BASE_DEC	0x0	
 F	Src Tenant	128t.src_tenant	FT_STRING	__128t		0x0	
-F	Dst Service	128t.dst_tenant	FT_STRING	__128t		0x0	
 F	IP	128t.src_ipv4	FT_IPv4	__128t		0x0	
+F	IPv6	128t.src_ipv6	FT_IPv6	__128t		0x0	
 F	IP	128t.dst_ipv4	FT_IPv4	__128t		0x0	
+F	IPv6	128t.dst_ipv6	FT_IPv6	__128t		0x0	
 F	Port	128t.src_port	FT_UINT16	__128t	BASE_DEC	0x0	
 F	Port	128t.dst_port	FT_UINT16	__128t	BASE_DEC	0x0	
-F	Src Peer	128t.src_peer	FT_STRING	__128t		0x0	
-F	Src Peer Path ID	128t.src_peer_path_id	FT_STRING	__128t		0x0	
-F	Src Peer - Security Name	128t.src_peer_sec_name	FT_STRING	__128t		0x0	
-F	Src Peer	128t.dst_peer	FT_STRING	__128t		0x0	
+F	Source Router	128t.src_peer	FT_STRING	__128t		0x0	
+F	Peer Pathway ID	128t.src_peer_path_id	FT_STRING	__128t		0x0	
+F	Security Policy	128t.src_peer_sec_name	FT_STRING	__128t		0x0	
+F	Destination Router	128t.dst_peer	FT_STRING	__128t		0x0	
 F	Service	128t.service	FT_STRING	__128t		0x0	
+F	Session UUID	128t.session_uuid	FT_STRING	__128t		0x0	
+F	Application Name	128t.app_name	FT_STRING	__128t		0x0	
+F	Security Key Version	128t.security_id	FT_UINT32	__128t	BASE_DEC	0x0	
+F	Global Interface ID	128t.interface_id	FT_UINT32	__128t	BASE_DEC	0x0	
+F	Session Payload Encrypted	128t.encrypted	FT_BOOLEAN	__128t	0	0x0	
+F	TCP SYN Packet (TCP carried as UDP)	128t.tcp_syn	FT_BOOLEAN	__128t	0	0x0	
+F	Disable Forward Metadata	128t.disable_fwd_metadata	FT_BOOLEAN	__128t	0	0x0	
+F	ICMP Error Location Address	128t.icmp_error_ipv4	FT_IPv4	__128t		0x0	
+F	ICMP Error Location Address	128t.icmp_error_ipv6	FT_IPv6	__128t		0x0	
+F	Control Message Drop Reason	128t.drop_reason	FT_UINT8	__128t	BASE_DEC	0x0	
+F	Source NAT Address	128t.src_nat_ipv4	FT_IPv4	__128t		0x0	
+F	Remaining Session Time	128t.remaining_session_time	FT_UINT32	__128t	BASE_DEC	0x0	
+F	Session Health Check	128t.health_check	FT_UINT8	__128t	BASE_DEC	0x0	
+F	Security Encryption Key	128t.security_key	FT_BYTES	__128t		0x0	
+F	Path Metrics	128t.pm	FT_BYTES	__128t		0x0	
+F	Tx Color	128t.pm.tx_color	FT_UINT32	__128t	BASE_DEC	0xf0000000	
+F	Tx Time Value (ms)	128t.pm.tx_time	FT_UINT32	__128t	BASE_DEC	0xfffffff	
+F	Rx Color	128t.pm.rx_color	FT_UINT32	__128t	BASE_DEC	0xf0000000	
+F	Rx Time Value (ms)	128t.pm.rx_time	FT_UINT32	__128t	BASE_DEC	0xfffffff	
+F	Drop	128t.pm.drop	FT_BOOLEAN	__128t	16	0x8000	
+F	Previous Rx Color Count	128t.pm.prev_rx_count	FT_UINT16	__128t	BASE_DEC	0x7fff	
+F	Multicast	128t.mcast	FT_BYTES	__128t		0x0	
+F	Address Family	128t.mcast.family	FT_UINT8	__128t	BASE_HEX	0x0	
+F	Flags	128t.mcast.flags	FT_UINT8	__128t	BASE_HEX	0x0	
+F	Source	128t.mcast.src_ipv4	FT_IPv4	__128t		0x0	
+F	Group	128t.mcast.group_ipv4	FT_IPv4	__128t		0x0	
+F	Source	128t.mcast.src_ipv6	FT_IPv6	__128t		0x0	
+F	Group	128t.mcast.group_ipv6	FT_IPv6	__128t		0x0	
+F	Egress Router Count	128t.mcast.egress_count	FT_UINT16	__128t	BASE_DEC	0x0	
+F	Egress Router	128t.mcast.egress_router	FT_STRING	__128t		0x0	
 F	cookie	128t.cookie	FT_BYTES	__128t		0x0	
 F	Metadata version	128t.meta_version	FT_UINT16	__128t	BASE_DEC	0xf000	metadata version
 F	Metadata header length	128t.meta_header_length	FT_UINT16	__128t	BASE_DEC	0xfff	metadata header length
 F	Metadata header	128t.meta_header	FT_BYTES	__128t		0x0	
 F	Metadata payload length	128t.payload_length	FT_UINT16	__128t	BASE_DEC	0x0	
 F	Payload	128t.payload_header	FT_BYTES	__128t		0x0	
+F	Encrypted metadata	128t.meta_encrypted	FT_BYTES	__128t		0x0	
+F	False-positive marker (payload starts with the SVR cookie)	128t.false_positive	FT_BOOLEAN	__128t	0	0x0	
 F	Fragment Header	128t.frag_header	FT_BYTES	__128t		0x0	
 F	Fragment Extended ID	128t.frag_extended_id	FT_BYTES	__128t		0x0	
 F	Fragment Original ID	128t.frag_original_id	FT_BYTES	__128t		0x0	
@@ -75,9 +152,18 @@ F	Largest Seen Fragment	128t.frag_large_seen_frag	FT_BYTES	__128t		0x0
 F	Type	128t.type	FT_UINT16	__128t	BASE_DEC	0x0	
 F	Length	128t.len	FT_UINT16	__128t	BASE_DEC	0x0	
 F	Bytes	128t.bytes	FT_BYTES	__128t		0x0	
+F	Text	128t.text	FT_STRING	__128t		0x0	
+F	Original Payload	128t.orig_payload	FT_BYTES	__128t		0x0	
 F	Number of Sessions in Service	128t.service_sessions_number	FT_UINT64	__128t	BASE_DEC	0x0	
 F	Modify Request Header	128t.modify_req_header	FT_BYTES	__128t		0x0	
 F	Modify Request Header F	128t.modify_req_header_f	FT_UINT16	__128t	BASE_DEC	0x8000	
 F	Modify Request Header D	128t.modify_req_header_d	FT_UINT16	__128t	BASE_DEC	0x4000	
 F	Modify Request Header RES	128t.modify_req_header_res	FT_UINT16	__128t	BASE_DEC	0x3000	
-F	Modify Request Sequence Number	128t.modify_req_header_seq	FT_UINT16	__128t	BASE_DEC	0xff	
+F	Modify Request Sequence Number	128t.modify_req_header_seq	FT_UINT16	__128t	BASE_DEC	0xfff	
+F	Packet carries SVR metadata	128t.has_metadata	FT_BOOLEAN	__128t	0	0x0	
+F	Session metadata first seen in frame	128t.session_frame	FT_FRAMENUM	__128t		0x0	
+F	Original 5-tuple (forward)	128t.inner	FT_STRING	__128t		0x0	
+F	Malformed SVR metadata	128t.malformed	FT_NONE	__128t		0x0	
+F	Payload TLVs are encrypted (or not parseable)	128t.meta_encrypted.expert	FT_NONE	__128t		0x0	
+F	Undocumented SVR metadata TLV	128t.unknown_type	FT_NONE	__128t		0x0	
+F	SVR control message	128t.control	FT_NONE	__128t		0x0	
